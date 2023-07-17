@@ -1,0 +1,214 @@
+import React, { useState } from 'react';
+import { makeStyles } from '@mui/styles';
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Collapse
+} from '@mui/material';
+import {
+  Home,
+  Dashboard,
+  BarChart,
+  Bookmark,
+  ExpandLess,
+  ExpandMore,
+  Visibility,
+  Search
+} from '@mui/icons-material';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex'
+  },
+  drawer: {
+    width: 240,
+    flexShrink: 0
+  },
+  drawerPaper: {
+    width: 240
+  },
+  toolbar: theme.mixins.toolbar,
+  nested: {
+    paddingLeft: theme.spacing(4)
+  }
+}));
+
+const Sidebar = () => {
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [subOpen, setSubOpen] = useState(false);
+
+  const handleReportClick = () => {
+    setOpen(!open);
+  };
+
+  const handleRevenueClick = () => {
+    setSubOpen(!subOpen);
+  };
+
+  return (
+    <div className={classes.root}>
+      <Drawer
+        className={classes.drawer}
+        variant="permanent"
+        classes={{
+          paper: classes.drawerPaper
+        }}
+      >
+        <div className={classes.toolbar} />
+        <List>
+          <ListItem button>
+            <ListItemIcon>
+              <Home />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon>
+              <Dashboard />
+            </ListItemIcon>
+            <ListItemText primary="Dashboard" />
+          </ListItem>
+          <ListItem button onClick={handleReportClick}>
+            <ListItemIcon>
+              <BarChart />
+            </ListItemIcon>
+            <ListItemText primary="Report" />
+            {open ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItem button className={classes.nested}>
+                <ListItemIcon>
+                  <Visibility />
+                </ListItemIcon>
+                <ListItemText primary="View" />
+              </ListItem>
+              <ListItem button className={classes.nested}>
+                <ListItemIcon>
+                  <Search />
+                </ListItemIcon>
+                <ListItemText primary="Search" />
+              </ListItem>
+            </List>
+          </Collapse>
+          <ListItem button>
+            <ListItemIcon>
+              <Bookmark />
+            </ListItemIcon>
+            <ListItemText primary="Bookmark" />
+          </ListItem>
+        </List>
+      </Drawer>
+    </div>
+  );
+};
+
+export default Sidebar;
+
+/** Accordion ***/
+import React from 'react';
+import { makeStyles } from '@mui/styles';
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails
+} from '@mui/material';
+import {
+  Home,
+  Dashboard,
+  BarChart,
+  Bookmark,
+  Visibility,
+  Search
+} from '@mui/icons-material';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex'
+  },
+  drawer: {
+    width: 240,
+    flexShrink: 0
+  },
+  drawerPaper: {
+    width: 240
+  },
+  toolbar: theme.mixins.toolbar
+}));
+
+const Sidebar = () => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.root}>
+      <Drawer
+        className={classes.drawer}
+        variant="permanent"
+        classes={{
+          paper: classes.drawerPaper
+        }}
+      >
+        <div className={classes.toolbar} />
+        <List>
+          <ListItem button>
+            <ListItemIcon>
+              <Home />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon>
+              <Dashboard />
+            </ListItemIcon>
+            <ListItemText primary="Dashboard" />
+          </ListItem>
+          <Accordion>
+            <AccordionSummary expandIcon={<BarChart />}>
+              <ListItemIcon>
+                <BarChart />
+              </ListItemIcon>
+              <ListItemText primary="Report" />
+            </AccordionSummary>
+            <AccordionDetails>
+              <List>
+                <ListItem button>
+                  <ListItemIcon>
+                    <Visibility />
+                  </ListItemIcon>
+                  <ListItemText primary="View" />
+                </ListItem>
+                <ListItem button>
+                  <ListItemIcon>
+                    <Search />
+                  </ListItemIcon>
+                  <ListItemText primary="Search" />
+                </ListItem>
+              </List>
+            </AccordionDetails>
+          </Accordion>
+          <ListItem button>
+            <ListItemIcon>
+              <Bookmark />
+            </ListItemIcon>
+            <ListItemText primary="Bookmark" />
+          </ListItem>
+        </List>
+      </Drawer>
+    </div>
+  );
+};
+
+export default Sidebar;
+
+
+
+
