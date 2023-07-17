@@ -1,0 +1,150 @@
+import React, { useState } from 'react';
+import { makeStyles } from '@mui/styles';
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  Collapse,
+  useMediaQuery,
+  useTheme
+} from '@mui/material';
+import {
+  Menu as MenuIcon,
+  Home,
+  Dashboard,
+  BarChart,
+  ExpandLess,
+  ExpandMore,
+  Visibility,
+  Search,
+  Bookmark
+} from '@mui/icons-material';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1
+  },
+  title: {
+    flexGrow: 1
+  },
+  menuButton: {
+    marginRight: theme.spacing(2)
+  }
+}));
+
+const NavigationBar = () => {
+  const classes = useStyles();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = useState(false);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleSubMenuClick = () => {
+    setOpen(!open);
+  };
+
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          {isSmallScreen ? (
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              className={classes.menuButton}
+              onClick={handleClick}
+            >
+              <MenuIcon />
+            </IconButton>
+          ) : null}
+          <Typography variant="h6" className={classes.title}>
+            Navigation
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      {isSmallScreen ? (
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <Home />
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <Dashboard />
+            </ListItemIcon>
+            <ListItemText primary="Dashboard" />
+          </MenuItem>
+          <MenuItem onClick={handleSubMenuClick}>
+            <ListItemIcon>
+              <BarChart />
+            </ListItemIcon>
+            <ListItemText primary="Report" />
+            {open ? <ExpandLess /> : <ExpandMore />}
+          </MenuItem>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Menu
+              id="nested-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+              elevation={0}
+              getContentAnchorEl={null}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right'
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right'
+              }}
+            >
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <Visibility />
+                </ListItemIcon>
+                <ListItemText primary="View" />
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <Search />
+                </ListItemIcon>
+                <ListItemText primary="Search" />
+              </MenuItem>
+            </Menu>
+          </Collapse>
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <Bookmark />
+            </ListItemIcon>
+            <ListItemText primary="Bookmark" />
+          </MenuItem>
+        </Menu>
+      ) : null}
+    </div>
+  );
+};
+
+export default NavigationBar;
