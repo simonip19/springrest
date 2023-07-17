@@ -1,0 +1,101 @@
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { AppBar, Toolbar, Typography, Button, Menu, MenuItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Home, CalendarToday, People, Search, ExpandMore, TrendingUp, Visibility } from '@material-ui/icons';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
+
+function App() {
+  const classes = useStyles();
+  const [customersMenuAnchorEl, setCustomersMenuAnchorEl] = React.useState(null);
+  const [searchSubMenuAnchorEl, setSearchSubMenuAnchorEl] = React.useState(null);
+
+  const handleCustomersMenuOpen = (event) => {
+    setCustomersMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleCustomersMenuClose = () => {
+    setCustomersMenuAnchorEl(null);
+  };
+
+  const handleSearchSubMenuOpen = (event) => {
+    setSearchSubMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleSearchSubMenuClose = () => {
+    setSearchSubMenuAnchorEl(null);
+  };
+
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" className={classes.title}>
+            My App
+          </Typography>
+          <Button color="inherit" startIcon={<Home />}>
+            Home
+          </Button>
+          <Button color="inherit" startIcon={<CalendarToday />}>
+            Calendar
+          </Button>
+          <Button
+            color="inherit"
+            startIcon={<People />}
+            onClick={handleCustomersMenuOpen}
+            endIcon={<ExpandMore />}
+          >
+            Customers
+          </Button>
+          <Menu
+            id="customers-menu"
+            anchorEl={customersMenuAnchorEl}
+            keepMounted
+            open={Boolean(customersMenuAnchorEl)}
+            onClose={handleCustomersMenuClose}
+          >
+            <MenuItem onClick={handleCustomersMenuClose}>
+              <ListItemIcon>
+                <Visibility />
+              </ListItemIcon>
+              <ListItemText primary="View" />
+            </MenuItem>
+            <MenuItem onClick={handleSearchSubMenuOpen}>
+              <ListItemIcon>
+                <Search />
+              </ListItemIcon>
+              <ListItemText primary="Search" />
+              <ExpandMore />
+            </MenuItem>
+          </Menu>
+          <Button color="inherit" startIcon={<TrendingUp />}>
+            Stats
+          </Button>
+          <Menu
+            id="search-submenu"
+            anchorEl={searchSubMenuAnchorEl}
+            keepMounted
+            open={Boolean(searchSubMenuAnchorEl)}
+            onClose={handleSearchSubMenuClose}
+          >
+            <MenuItem onClick={handleSearchSubMenuClose}>
+              <ListItemText primary="Purchase" />
+            </MenuItem>
+            <MenuItem onClick={handleSearchSubMenuClose}>
+              <ListItemText primary="Customer" />
+            </MenuItem>
+          </Menu>
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
+}
+
+export default App;
