@@ -1,0 +1,294 @@
+import React, { useState } from 'react';
+import { makeStyles } from '@mui/styles';
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  Collapse,
+  useMediaQuery,
+  useTheme,
+  List,
+  ListItem,
+  Drawer,
+  Divider,
+  Hidden,
+  Box
+} from '@mui/material';
+import {
+  Menu as MenuIcon,
+  Home,
+  Dashboard,
+  BarChart,
+  ExpandLess,
+  ExpandMore,
+  Visibility,
+  Search,
+  Bookmark,
+  ShoppingBasket,
+  Mail
+} from '@mui/icons-material';
+
+const drawerWidth = 240;
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex'
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1
+  },
+  drawer: {
+    [theme.breakpoints.up('md')]: {
+      width: drawerWidth,
+      flexShrink: 0
+    }
+  },
+  drawerPaper: {
+    width: drawerWidth
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3)
+  },
+  toolbar: theme.mixins.toolbar,
+  menuItem: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    paddingRight: theme.spacing(2),
+    '&:hover': {
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.common.white
+    }
+  },
+  subMenuItem: {
+    paddingLeft: theme.spacing(4)
+  }
+}));
+
+const NavigationBar = () => {
+  const classes = useStyles();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [subMenuOpen, setSubMenuOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleSubMenuClick = () => {
+    setOpen(!open);
+  };
+
+  const handleSubSubMenuClick = () => {
+    setSubMenuOpen(!subMenuOpen);
+  };
+
+  const drawer = (
+    <div>
+      <div className={classes.toolbar} />
+      <Divider />
+      <List>
+        <ListItem button>
+          <ListItemIcon>
+            <Home />
+          </ListItemIcon>
+          <ListItemText primary="Home" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <Dashboard />
+          </ListItemIcon>
+          <ListItemText primary="Dashboard" />
+        </ListItem>
+        <ListItem button onClick={handleSubMenuClick}>
+          <ListItemIcon>
+            <BarChart />
+          </ListItemIcon>
+          <ListItemText primary="Report" />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem button className={classes.subMenuItem}>
+              <ListItemIcon>
+                <Visibility />
+              </ListItemIcon>
+              <ListItemText primary="View" />
+            </ListItem>
+            <ListItem button className={classes.subMenuItem}>
+              <ListItemIcon>
+                <Search />
+              </ListItemIcon>
+              <ListItemText primary="Search" />
+              <ListItemIcon>
+                <ExpandLess />
+              </ListItemIcon>
+            </ListItem>
+            <Collapse in={subMenuOpen} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItem button className={classes.subMenuItem}>
+                  <ListItemIcon>
+                    <ShoppingBasket />
+                  </ListItemIcon>
+                  <ListItemText primary="Purchases" />
+                </ListItem>
+                <ListItem button className={classes.subMenuItem}>
+                  <ListItemIcon>
+                    <Mail />
+                  </ListItemIcon>
+                  <ListItemText primary="Messages" />
+                </ListItem>
+              </List>
+            </Collapse>
+          </List>
+        </Collapse>
+        <ListItem button>
+          <ListItemIcon>
+            <Bookmark />
+          </ListItemIcon>
+          <ListItemText primary="Bookmark" />
+        </ListItem>
+      </List>
+    </div>
+  );
+
+  return (
+    <div className={classes.root}>
+      <AppBar position="fixed" className={classes.appBar}>
+        <Toolbar>
+          {isSmallScreen ? (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              className={classes.menuButton}
+            >
+              <MenuIcon />
+            </IconButton>
+          ) : (
+            <List component="nav">
+              <ListItem className={classes.menuItem} button>
+                <ListItemIcon>
+                  <Home />
+                </ListItemIcon>
+                <ListItemText primary="Home" />
+              </ListItem>
+              <ListItem className={classes.menuItem} button>
+                <ListItemIcon>
+                  <Dashboard />
+                </ListItemIcon>
+                <ListItemText primary="Dashboard" />
+              </ListItem>
+              <ListItem
+                className={classes.menuItem}
+                button
+                onClick={handleSubMenuClick}
+              >
+                <ListItemIcon>
+                  <BarChart />
+                </ListItemIcon>
+                <ListItemText primary="Report" />
+                {open ? <ExpandLess /> : <ExpandMore />}
+              </ListItem>
+              <Collapse in={open} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  <ListItem className={classes.subMenuItem} button>
+                    <ListItemIcon>
+                      <Visibility />
+                    </ListItemIcon>
+                    <ListItemText primary="View" />
+                  </ListItem>
+                  <ListItem className={classes.subMenuItem} button>
+                    <ListItemIcon>
+                      <Search />
+                    </ListItemIcon>
+                    <ListItemText primary="Search" />
+                    <ListItemIcon>
+                      <ExpandLess />
+                    </ListItemIcon>
+                  </ListItem>
+                  <Collapse in={subMenuOpen} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                      <ListItem className={classes.subMenuItem} button>
+                        <ListItemIcon>
+                          <ShoppingBasket />
+                        </ListItemIcon>
+                        <ListItemText primary="Purchases" />
+                      </ListItem>
+                      <ListItem className={classes.subMenuItem} button>
+                        <ListItemIcon>
+                          <Mail />
+                        </ListItemIcon>
+                        <ListItemText primary="Messages" />
+                      </ListItem>
+                    </List>
+                  </Collapse>
+                </List>
+              </Collapse>
+              <ListItem className={classes.menuItem} button>
+                <ListItemIcon>
+                  <Bookmark />
+                </ListItemIcon>
+                <ListItemText primary="Bookmark" />
+              </ListItem>
+            </List>
+          )}
+          <Typography variant="h6" noWrap>
+            Navigation
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <nav className={classes.drawer} aria-label="navigation">
+        <Hidden mdUp implementation="css">
+          <Drawer
+            variant="temporary"
+            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper
+            }}
+            ModalProps={{
+              keepMounted: true
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+        <Hidden smDown implementation="css">
+          <Drawer         classes={{
+          paper: classes.drawerPaper
+        }}
+        variant="permanent"
+        open
+      >
+        {drawer}
+      </Drawer>
+    </Hidden>
+  </nav>
+  <main className={classes.content}>
+    <div className={classes.toolbar} />
+    <Typography paragraph>Main Content</Typography>
+  </main>
+</div>
+);
+};
+
+
