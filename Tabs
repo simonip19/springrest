@@ -1,0 +1,64 @@
+import React, { useState } from 'react';
+import { Tab, Tabs, Typography, Box } from '@mui/material';
+
+const TabPanel = ({ value, index, children }) => {
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`tabpanel-${index}`}
+      aria-labelledby={`tab-${index}`}
+    >
+      {value === index && <Box p={3}>{children}</Box>}
+    </div>
+  );
+};
+
+const TabComponent = () => {
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  return (
+    <div>
+      <Tabs value={value} onChange={handleChange} aria-label="Tabs">
+        <Tab label="Text 1" />
+        <Tab label="Text 2" />
+        <Tab label="Text 3" />
+        <Tab label="Text 4" />
+      </Tabs>
+      <TabPanel value={value} index={0}>
+        <Typography variant="h5">Content for Tab 1</Typography>
+        <Typography>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod erat eu
+          laoreet malesuada.
+        </Typography>
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <Typography variant="h5">Content for Tab 2</Typography>
+        <Typography>
+          Ut eget varius risus, a malesuada nibh. Vestibulum ante ipsum primis in
+          faucibus orci luctus et ultrices posuere cubilia Curae; Nunc nec bibendum
+          purus.
+        </Typography>
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <Typography variant="h5">Content for Tab 3</Typography>
+        <Typography>
+          Aenean eu nisl purus. Etiam elementum, est a gravida facilisis, odio arcu
+          vulputate libero.
+        </Typography>
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <Typography variant="h5">Content for Tab 4</Typography>
+        <Typography>
+          Cras vel lacinia risus, eu pellentesque arcu. Nulla ut tincidunt metus.
+        </Typography>
+      </TabPanel>
+    </div>
+  );
+};
+
+export default TabComponent;
