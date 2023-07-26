@@ -1,0 +1,57 @@
+import React from 'react';
+import { makeStyles } from '@mui/styles';
+import Button from '@mui/material/Button';
+
+const useStyles = makeStyles((theme) => ({
+  banner: {
+    background: 'linear-gradient(135deg, #007BFF, #00BFFF)', // Blue gradient background
+    color: '#FFFFFF', // Text color
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '80vh',
+    textAlign: 'center',
+  },
+  heading: {
+    fontSize: '2.5rem',
+    fontWeight: 'bold',
+    marginBottom: theme.spacing(2),
+  },
+  subheading: {
+    fontSize: '1.5rem',
+    marginBottom: theme.spacing(4),
+  },
+  scrollButton: {
+    background: '#FFFFFF',
+    color: '#007BFF', // Blue color for the button
+    fontWeight: 'bold',
+    padding: '10px 20px',
+    borderRadius: '30px',
+    cursor: 'pointer',
+  },
+}));
+
+const BannerSection = () => {
+  const classes = useStyles();
+
+  const handleScrollDown = () => {
+    // Replace 'component-id' with the actual ID of the specific component you want to scroll to.
+    const element = document.getElementById('component-id');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <div className={classes.banner}>
+      <div className={classes.heading}>Unleash Your Creativity with Our Components!</div>
+      <div className={classes.subheading}>Empowering Web Developers with Versatile React Components</div>
+      <Button className={classes.scrollButton} onClick={handleScrollDown}>
+        Scroll Down
+      </Button>
+    </div>
+  );
+};
+
+export default BannerSection;
