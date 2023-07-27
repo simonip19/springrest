@@ -1,0 +1,43 @@
+import React, { useState, useEffect } from 'react';
+import { Fab } from '@mui/material';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+
+const ScrollToTopButton = () => {
+  const [showButton, setShowButton] = useState(false);
+
+  useEffect(() => {
+    // Add a scroll event listener to show/hide the button based on scroll position
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowButton(true);
+      } else {
+        setShowButton(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Remove the event listener when the component is unmounted
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <Fab
+      color="primary"
+      aria-label="scroll to top"
+      size="small"
+      style={{ position: 'fixed', bottom: 16, right: 16, display: showButton ? 'block' : 'none' }}
+      onClick={handleScrollToTop}
+    >
+      <KeyboardArrowUpIcon />
+    </Fab>
+  );
+};
+
+export default ScrollToTopButton;
